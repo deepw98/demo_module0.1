@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Help Documentation</title>
+
+        <style>
+
+        body{
+            margin:0;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        /* Layout */
+
+        .container{
+            display:flex;
+        }
+
+        /* Sidebar */
+
+        .sidebar{
+            width:260px;
+            background:#2c3e50;
+            height:100vh;
+            overflow:auto;
+            position:fixed;
+        }
+
+        .sidebar h2{
+            color:white;
+            padding-left:15px;
+        }
+
+        .sidebar input{
+            width:90%;
+            margin:10px;
+            padding:8px;
+            border:none;
+            border-radius:4px;
+        }
+
+        /* Menu */
+
+        .menu-item{
+            color:white;
+            padding:12px 20px;
+            cursor:pointer;
+        }
+
+        .menu-item:hover{
+            background:#34495e;
+        }
+
+        /* Submenu */
+
+        .submenu{
+            display:none;
+            background:#34495e;
+        }
+
+        .submenu a{
+            display:block;
+            color:white;
+            padding:10px 35px;
+            text-decoration:none;
+        }
+
+        .submenu a:hover{
+            background:#3d566e;
+        }
+
+        /* Content */
+
+       .content {
+            margin-left: 260px; /* Match your sidebar width */
+            padding: 40px;
+            max-width: 900px; /* Use max-width instead of a percentage */
+        }
+
+        .section{
+            margin-bottom:30px;
+        }
+
+        .section img{
+            max-width:100%;
+            border:1px solid #ccc;
+            margin-top:10px;
+        }
+        p{
+            margin-top:20px;
+            margin-bottom:20px;
+        }
+
+        html{
+        scroll-behavior:smooth;
+        }
+        .section img {
+            display: block;
+            max-width: 100%; 
+            height: auto; /* Ensures aspect ratio stays perfect */
+            border: 1px solid #ddd;
+            border-radius: 4px; /* Optional: makes it look more modern */
+            margin: 20px 0;
+        }
+
+        </style>
+    </head>
+
+    <body>
+
+        <div class="container">
+
+            <!-- SIDEBAR -->
+
+            <div class="sidebar">
+
+                <h2>Help Guide</h2>
+
+                <input type="text" id="searchBox" placeholder="Search...">
+
+                <div class="menu-item" onclick="toggleMenu('menu1')">
+                   > Stock Product
+                </div>
+
+                <div class="submenu" id="menu1">
+                    <a href="#definition">Definition</a>
+                    <a href="#create">Create Stock Product</a>
+                    <a href="#view">View Stock Product</a>
+                    <a href="#update">Update Stock Product</a>
+                    <a href="#delete">Delete Stock Product</a>
+                </div>
+
+
+                <!-- <div class="menu-item" onclick="toggleMenu('menu2')">
+                    
+                </div>
+
+                <div class="submenu" id="menu2">
+                    <a href="#overview">Overview</a>
+                    <a href="#stats">Statistics</a>
+                </div>
+
+
+                <div class="menu-item" onclick="toggleMenu('menu3')">
+                    Orders
+                </div>
+
+                <div class="submenu" id="menu3">
+                    <a href="#createorder">Create Order</a>
+                    <a href="#manageorder">Manage Orders</a>
+                </div> -->
+
+            </div>
+
+
+            <!-- CONTENT -->
+
+            <div class="content">
+
+                <div class="section" id="definition">
+                    <h2>What are Stock Products?</h2>
+                    <p>Stock products are standardized items that are kept in inventory and are ready for immediate sale or distribution.
+                        Unlike custom-made or "on-demand" items, stock products are manufactured or purchased in advance based on forecasted demand.
+                    </p>
+                    <!-- <img src="images/login.png"> -->
+                </div>
+
+                <div class="section" id="create">
+                    <h2>How to create stock products in SPS</h2>
+                    <p><b>Step 1:</b>Login to your sps account</p>
+                    <img src="images/stockproductcreate1.jpg">
+                    <p><b>Step 2:</b>Go to the lists tab</p>
+                    <img src="images/stockproductcreate2.jpg">
+                    <p><b>Step 3:</b>Click on the plus "+" sign.</p>
+                    <img src="images/stockproductcreate3.jpg">
+                    <p><b>Step 4:</b>A form for product will open</p>
+                    <img src="images/stockproductcreate4.jpg">
+                    <p><b>Step 5:</b>Fill information regarding the product.</p>
+                    <img src="images/stockproductcreate5.jpg">
+                    <p><b>Step 6:</b>Click on the "Add New Product" button located on the bottom-right corner of the form</p>
+                    <img src="images/stockproductcreate6.jpg">
+                    <p><b>Step 7:</b>An overview of product will appear. The product now has been saved in the SPS</p>
+                    <img src="images/stockproductcreate7.jpg">
+                    <!-- <p><b>Step 8:</b></p>
+                    <img src="images/register.png"> -->
+                </div>
+
+                <div class="section" id="view">
+                    <h2>Searching saved Stock Products</h2>
+                    <p><b>Step 1:</b>Login to your sps account</p>
+                    <img src="images/stockproductcreate1.jpg">
+                    <p><b>Step 2:</b>Go to the lists tab</p>
+                    <img src="images/stockproductcreate2.jpg">
+                    <p><b>Step 3:</b>Click on the "Stock" button</p>
+                    <img src="images/stockproductview3.jpg">
+                    <p><b>Step 4:</b>Search for the product using its name or other filter options that are available</p>
+                    <img src="images/stockproductview4.jpg">
+                    <p><b>Step 5:</b>The product is visible.</p>
+                    <img src="images/stockproductview5.jpg">
+                </div>
+
+                <div class="section" id="update">
+                    <h2>Updating Stock Products</h2>
+                    <p><b>Step 1:</b>After searching the product you want to save, click on it. The overview of product will appear</p>
+                    <img src="images/stockproductcreate7.jpg">
+                    <p><b>Step 2:</b>Click on the update button in the upper-right corner of the window</p>
+                    <img src="images/stockproductupdate2.jpg">
+                    <p><b>Step 3:</b>The update product tab will appear, which allows to edit all the information regarding the product</p>
+                    <img src="images/stockproductupdate3.1.jpg">
+                    <p><b>Step 4:</b>After changing the values according to requirement, click on the update product on the bottom-right corner of the form</p>
+                    <img src="images/stockproductupdate4.jpg">
+                    <p><b>Step 5:</b>Changes will be saved</p>
+                    <img src="images/stockproductupdate5.jpg">
+                </div>
+
+                <div class="section" id="delete">
+                    <h2>Deleting Stock Products</h2>
+                    <p><b>Step 1:</b>Go to the overview page of the product you want to delete(see above)</p>
+                    <img src="images/stockproductupdate5.jpg">
+                    <p><b>Step 2:</b>Click on the delete button on the upper-right corner of the jpgage</p>
+                    <img src="images/stockproductdelete2.jpg">
+                    <p><b>Step 3:</b>This window will appear asking for confirmation.Again click Delete</p>
+                    <img src="images/stockproductdelete3.jpg">
+                    <p><b>Step 4:</b>The product is deleted</p>
+                    <img src="images/stockproductdelete4.jpg">
+                </div>
+
+                <!-- <div class="section" id="manageorder">
+                    <h2>Manage Orders</h2>
+                    <p>View and manage orders.</p>
+                    <img src="images/manage-order.png">
+                </div> -->
+
+            </div>
+
+        </div>
+
+
+        <script>
+
+        /* COLLAPSIBLE MENU */
+
+        function toggleMenu(id){
+
+            let menu = document.getElementById(id)
+
+            if(menu.style.display === "block")
+            menu.style.display = "none"
+            else
+            menu.style.display = "block"
+
+        }
+
+
+        /* SEARCH */
+
+        document.getElementById("searchBox").addEventListener("keyup", function(){
+
+            let value = this.value.toLowerCase()
+            let links = document.querySelectorAll(".submenu a")
+
+            links.forEach(function(link){
+
+                if(link.textContent.toLowerCase().includes(value))
+                link.style.display = "block"
+                else
+                link.style.display = "none"
+
+            })
+
+        })
+
+        </script>
+
+    </body>
+</html>
