@@ -5,9 +5,10 @@
 
         <style>
 
-        body{
+       body{
             margin:0;
-            font-family:Arial, Helvetica, sans-serif;
+            font-family:system-ui, Arial, sans-serif;
+            font-size:14px;
         }
 
         /* Layout */
@@ -20,15 +21,20 @@
 
         .sidebar{
             width:260px;
-            background:#2c3e50;
-            height:100vh;
+            background:#fff;
+            border-right:1px solid #ddd;
+            border-top:1px solid #ddd;
+            height:calc(100vh - 80px);
             overflow:auto;
             position:fixed;
+            z-index: 100;
         }
 
         .sidebar h2{
-            color:white;
-            padding-left:15px;
+            font-size:18px;
+            padding:15px;
+            margin:0;
+            color:#333;
         }
 
         .sidebar input{
@@ -41,50 +47,42 @@
 
         /* Menu */
 
-        .menu-item{
-            color:white;
-            padding:12px 20px;
+       .menu-item{
+            color:#333;
+            padding:12px 18px;
             cursor:pointer;
+            font-size:14px;
         }
 
         .menu-item:hover{
-            background:#34495e;
+            background:#eeeeee;
         }
 
         /* Submenu */
 
-        .submenu{
+       .submenu{
             display:none;
-            background:#34495e;
+            background:#f7f7f7;
         }
 
         .submenu a{
             display:block;
-            color:white;
+            color:#444;
             padding:10px 35px;
             text-decoration:none;
+            font-size:14px;
         }
 
         .submenu a:hover{
-            background:#3d566e;
+            background:#eaeaea;
         }
 
         /* Content */
 
-       .content {
-            margin-left: 260px; /* Match your sidebar width */
-            padding: 40px;
-            max-width: 900px; /* Use max-width instead of a percentage */
-        }
-
-        .section{
-            margin-bottom:30px;
-        }
-
-        .section img{
-            max-width:100%;
-            border:1px solid #ccc;
-            margin-top:10px;
+      .content{
+            margin-left:260px;
+            padding-left:40px;
+            max-width:950px;
         }
         p{
             margin-top:20px;
@@ -94,19 +92,258 @@
         html{
         scroll-behavior:smooth;
         }
-        .section img {
-            display: block;
-            max-width: 100%; 
-            height: auto; /* Ensures aspect ratio stays perfect */
-            border: 1px solid #ddd;
-            border-radius: 4px; /* Optional: makes it look more modern */
-            margin: 20px 0;
+        .section img{
+            display:block;
+            max-width:100%;
+            height:auto;
+            border-radius:6px;
+            margin:20px 0;
+            cursor:zoom-in;
+            box-shadow:
+                0 0 0 10px #eef4ff,
+                0 2px 6px rgba(0,0,0,0.06);
         }
 
-        </style>
-    </head>
+       .submenu a.active{
+            background:#dfefff;
+            color:#1a5fb4;
+        }
 
+       .section{
+            margin-bottom:30px;
+            counter-reset:step;
+        }
+
+       .step{
+            background:#f4f6f8;
+            padding:10px 12px;
+            border-left:4px solid black;
+            margin:15px 0;
+        }
+
+        .step::before{
+            counter-increment: step;
+            content:"Step " counter(step) ": ";
+            font-weight:bold;
+        }
+
+        /* IMAGE ZOOM MODAL */
+
+        #zoomModal{
+            display:none;
+            position:fixed;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            background:rgba(0,0,0,0.85);
+            justify-content:center;
+            align-items:center;
+            cursor:grab;
+            z-index:9999;
+        }
+
+        #zoomImage{
+            max-width:90%;
+            max-height:90%;
+            transform-origin:center;
+            transition:transform 0.1s;
+        }
+
+        /* make screenshots clickable */
+
+      
+
+        .arrow{
+            display:inline-block;
+            margin-right:8px;
+            transition:transform 0.25s ease;
+        }
+
+        /* rotated arrow */
+
+        .arrow.rotate{
+            transform:rotate(90deg);
+        }
+
+        /* TOP NAVBAR */
+
+        .navbar{
+            background:#f2f2f2;
+            border-bottom:1px solid #d8d8d8;
+            padding:6px 1px;
+            z-index:2000;
+        }
+
+        .nav-top{
+            display:grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            align-items:center;
+            /* font-size: 8pt; */
+            
+        }
+
+        .brand-logo{
+            width: 25%;
+        }
+
+        .search-box{
+            width:380px;
+        }
+
+        .search-box input{
+            width:100%;
+            padding:7px 10px;
+            border:1px solid #cfcfcf;
+            border-radius:3px;
+            font-size:14px;
+        }
+
+        .actions{
+            display:flex;
+            align-items:center;
+            gap:18px;
+            font-size:14px;
+            color:#333;
+        }
+
+        /* MENU BAR */
+
+       .menu-bar{
+            background:#f7f7f7;
+            border-bottom:1px solid #e3e3e3;
+            z-index: 1000;
+        }
+
+        .menu-bar ul{
+            margin:0;
+            padding:0px 25px;
+            list-style:none;
+            display:flex;
+        }
+
+        .menu-bar li{
+            position:relative;
+        }
+
+        /* .menu-bar a{
+            display:block;
+            padding:10px 16px;
+            color:#444;
+            text-decoration:none;
+            font-size:14px;
+        } */
+        
+        .menu-bar li a{
+            border-top: 0 solid #fff;
+            padding: 10px 25px;
+            float: left;
+            display: block;
+            color: #404245;
+            font: 16px Trebuchet MS;
+            text-decoration: none;
+            height: auto;
+            border-right: 1px solid #f6f6f6;
+            border-left: 1px solid #f6f6f6;
+        }
+
+        .menu-bar a:hover{
+            background:#ececec;
+        }
+
+        /* DROPDOWN */
+
+        .menu-bar .submenu{
+            display:none;
+            position:absolute;
+            background:white;
+            border:1px solid #ddd;
+            box-shadow:0 3px 8px rgba(0,0,0,0.08);
+            top:100%;
+            min-width:200px;
+            z-index: 2000;
+        }
+
+        .menu-bar .submenu a{
+            padding:10px 14px;
+            color:#444;
+        }
+
+        .menu-bar li:hover .submenu{
+            display:block;
+        }
+
+        .header{
+            position:sticky;
+            top:0;
+            z-index:3000;
+        }
+        .searchHighlight{
+            background:#ffe96b;
+            padding:2px 4px;
+            border-radius:3px;
+        }
+        </style>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    </head>
     <body>
+        <div class="header">
+            <div class="navbar">
+
+                <div class="nav-top">
+
+                    <div>
+                        <img src="images/Toplogo.png" class="brand-logo">
+                    </div>
+
+                    <div class="search-box">
+                        <input type="text" placeholder="Search">
+                    </div>
+
+                    <!-- <div class="actions">
+                        <span>📩 Notifications</span>
+                        <span>🛒 Cart</span>
+                        <span>👤 Administrator</span>
+                    </div> -->
+
+                </div>
+
+            </div>
+
+
+            <div class="menu-bar">
+
+            <ul>
+
+                <li><a href="#">★</a></li>
+
+                <li>
+                    <a href="#">Setup</a>
+                    <div class="submenu">
+                        <a href="#">System Settings</a>
+                        <a href="#">User Admin</a>
+                        <a href="#">Admin Tools</a>
+                    </div>
+                </li>
+
+                <li><a href="#">Lists</a></li>
+                <li><a href="#">Pre Sales</a></li>
+                <li><a href="#">Purchases</a></li>
+                <li><a href="#">Production</a></li>
+                <li><a href="#">Inventory</a></li>
+                <li><a href="#">Sales</a></li>
+                <li><a href="#">Accounting</a></li>
+                <li><a href="#">Reports</a></li>
+                <li><a href="#">Shop</a></li>
+                <li><a href="#">Schedule</a></li>
+
+            </ul>
+
+            </div>
+        </div>
+       
 
         <div class="container">
 
@@ -118,8 +355,8 @@
 
                 <input type="text" id="searchBox" placeholder="Search...">
 
-                <div class="menu-item" onclick="toggleMenu('menu1')">
-                   > Stock Product
+                <div class="menu-item" onclick="toggleMenu(this,'menu1')">
+                    <span class="arrow">▶</span> Stock Product
                 </div>
 
                 <div class="submenu" id="menu1">
@@ -129,27 +366,6 @@
                     <a href="#update">Update Stock Product</a>
                     <a href="#delete">Delete Stock Product</a>
                 </div>
-
-
-                <!-- <div class="menu-item" onclick="toggleMenu('menu2')">
-                    
-                </div>
-
-                <div class="submenu" id="menu2">
-                    <a href="#overview">Overview</a>
-                    <a href="#stats">Statistics</a>
-                </div>
-
-
-                <div class="menu-item" onclick="toggleMenu('menu3')">
-                    Orders
-                </div>
-
-                <div class="submenu" id="menu3">
-                    <a href="#createorder">Create Order</a>
-                    <a href="#manageorder">Manage Orders</a>
-                </div> -->
-
             </div>
 
 
@@ -167,19 +383,19 @@
 
                 <div class="section" id="create">
                     <h2>How to create stock products in SPS</h2>
-                    <p><b>Step 1:</b>Login to your sps account</p>
+                    <p class="step">Login to your sps account</p>
                     <img src="images/stockproductcreate1.jpg">
-                    <p><b>Step 2:</b>Go to the lists tab</p>
+                    <p  class="step">Go to the lists tab</p>
                     <img src="images/stockproductcreate2.jpg">
-                    <p><b>Step 3:</b>Click on the plus "+" sign.</p>
+                    <p  class="step">Click on the plus "+" sign.</p>
                     <img src="images/stockproductcreate3.jpg">
-                    <p><b>Step 4:</b>A form for product will open</p>
+                    <p  class="step">A form for product will open</p>
                     <img src="images/stockproductcreate4.jpg">
-                    <p><b>Step 5:</b>Fill information regarding the product.</p>
+                    <p  class="step">Fill information regarding the product.</p>
                     <img src="images/stockproductcreate5.jpg">
-                    <p><b>Step 6:</b>Click on the "Add New Product" button located on the bottom-right corner of the form</p>
+                    <p  class="step">Click on the "Add New Product" button located on the bottom-right corner of the form</p>
                     <img src="images/stockproductcreate6.jpg">
-                    <p><b>Step 7:</b>An overview of product will appear. The product now has been saved in the SPS</p>
+                    <p  class="step">An overview of product will appear. The product now has been saved in the SPS</p>
                     <img src="images/stockproductcreate7.jpg">
                     <!-- <p><b>Step 8:</b></p>
                     <img src="images/register.png"> -->
@@ -187,52 +403,47 @@
 
                 <div class="section" id="view">
                     <h2>Searching saved Stock Products</h2>
-                    <p><b>Step 1:</b>Login to your sps account</p>
+                    <p  class="step">Login to your sps account</p>
                     <img src="images/stockproductcreate1.jpg">
-                    <p><b>Step 2:</b>Go to the lists tab</p>
+                    <p  class="step">Go to the lists tab</p>
                     <img src="images/stockproductcreate2.jpg">
-                    <p><b>Step 3:</b>Click on the "Stock" button</p>
+                    <p  class="step">Click on the "Stock" button</p>
                     <img src="images/stockproductview3.jpg">
-                    <p><b>Step 4:</b>Search for the product using its name or other filter options that are available</p>
+                    <p  class="step">Search for the product using its name or other filter options that are available</p>
                     <img src="images/stockproductview4.jpg">
-                    <p><b>Step 5:</b>The product is visible.</p>
+                    <p  class="step">The product is visible.</p>
                     <img src="images/stockproductview5.jpg">
                 </div>
 
                 <div class="section" id="update">
                     <h2>Updating Stock Products</h2>
-                    <p><b>Step 1:</b>After searching the product you want to save, click on it. The overview of product will appear</p>
+                    <p  class="step">After searching the product you want to save, click on it. The overview of product will appear</p>
                     <img src="images/stockproductcreate7.jpg">
-                    <p><b>Step 2:</b>Click on the update button in the upper-right corner of the window</p>
+                    <p  class="step">Click on the update button in the upper-right corner of the window</p>
                     <img src="images/stockproductupdate2.jpg">
-                    <p><b>Step 3:</b>The update product tab will appear, which allows to edit all the information regarding the product</p>
+                    <p  class="step">The update product tab will appear, which allows to edit all the information regarding the product</p>
                     <img src="images/stockproductupdate3.1.jpg">
-                    <p><b>Step 4:</b>After changing the values according to requirement, click on the update product on the bottom-right corner of the form</p>
+                    <p  class="step">After changing the values according to requirement, click on the update product on the bottom-right corner of the form</p>
                     <img src="images/stockproductupdate4.jpg">
-                    <p><b>Step 5:</b>Changes will be saved</p>
+                    <p  class="step">Changes will be saved</p>
                     <img src="images/stockproductupdate5.jpg">
                 </div>
 
                 <div class="section" id="delete">
                     <h2>Deleting Stock Products</h2>
-                    <p><b>Step 1:</b>Go to the overview page of the product you want to delete(see above)</p>
+                    <p  class="step">Go to the overview page of the product you want to delete(see above)</p>
                     <img src="images/stockproductupdate5.jpg">
-                    <p><b>Step 2:</b>Click on the delete button on the upper-right corner of the jpgage</p>
+                    <p  class="step">Click on the delete button on the upper-right corner of the page</p>
                     <img src="images/stockproductdelete2.jpg">
-                    <p><b>Step 3:</b>This window will appear asking for confirmation.Again click Delete</p>
+                    <p  class="step">This window will appear asking for confirmation.Again click Delete</p>
                     <img src="images/stockproductdelete3.jpg">
-                    <p><b>Step 4:</b>The product is deleted</p>
+                    <p  class="step">The product is deleted</p>
                     <img src="images/stockproductdelete4.jpg">
                 </div>
-
-                <!-- <div class="section" id="manageorder">
-                    <h2>Manage Orders</h2>
-                    <p>View and manage orders.</p>
-                    <img src="images/manage-order.png">
-                </div> -->
-
             </div>
-
+        </div>
+        <div id="zoomModal">
+            <img id="zoomImage">
         </div>
 
 
@@ -240,37 +451,248 @@
 
         /* COLLAPSIBLE MENU */
 
-        function toggleMenu(id){
+       function toggleMenu(element, id){
 
             let menu = document.getElementById(id)
+            let arrow = element.querySelector(".arrow")
 
-            if(menu.style.display === "block")
-            menu.style.display = "none"
-            else
-            menu.style.display = "block"
+            if(menu.style.display === "block"){
+
+                menu.style.display = "none"
+                arrow.classList.remove("rotate")
+
+            }else{
+
+                menu.style.display = "block"
+                arrow.classList.add("rotate")
+
+            }
 
         }
 
 
         /* SEARCH */
 
-        document.getElementById("searchBox").addEventListener("keyup", function(){
+      const searchBox = document.getElementById("searchBox")
 
-            let value = this.value.toLowerCase()
-            let links = document.querySelectorAll(".submenu a")
+        searchBox.addEventListener("keyup", function(){
 
-            links.forEach(function(link){
+            const word = this.value.trim().toLowerCase()
 
-                if(link.textContent.toLowerCase().includes(value))
-                link.style.display = "block"
-                else
-                link.style.display = "none"
+            const sections = document.querySelectorAll(".section")
+
+            removeHighlights()
+
+            if(word === "") return
+
+            let firstMatch = null
+
+            sections.forEach(section => {
+
+                const walker = document.createTreeWalker(
+                    section,
+                    NodeFilter.SHOW_TEXT,
+                    null,
+                    false
+                )
+
+                let node
+
+                while(node = walker.nextNode()){
+
+                    const text = node.nodeValue.toLowerCase()
+
+                    if(text.includes(word)){
+
+                        const span = document.createElement("span")
+
+                        span.innerHTML = node.nodeValue.replace(
+                            new RegExp(word,"gi"),
+                            match => `<mark class="searchHighlight">${match}</mark>`
+                        )
+
+                        node.parentNode.replaceChild(span,node)
+
+                        if(!firstMatch){
+                            firstMatch = span.querySelector("mark")
+                        }
+
+                    }
+
+                }
+
+            })
+
+            /* scroll to first result */
+
+            if(firstMatch){
+
+                firstMatch.scrollIntoView({
+                    behavior:"smooth",
+                    block:"center"
+                })
+
+            }
+
+        })
+
+
+        function removeHighlights(){
+
+            document.querySelectorAll(".searchHighlight").forEach(mark => {
+
+                const parent = mark.parentNode
+
+                parent.replaceChild(
+                    document.createTextNode(mark.textContent),
+                    mark
+                )
+
+                parent.normalize()
+
+            })
+
+        }
+
+        /* AUTO HIGHLIGHT CURRENT SECTION */
+
+        const sections = document.querySelectorAll(".section")
+        const navLinks = document.querySelectorAll(".submenu a")
+
+        window.addEventListener("scroll", () => {
+
+            let current = ""
+
+            sections.forEach(section => {
+
+                const sectionTop = section.offsetTop - 150
+
+                if(window.scrollY >= sectionTop){
+                    current = section.getAttribute("id")
+                }
+
+            })
+
+            navLinks.forEach(link => {
+
+                link.classList.remove("active")
+
+                if(link.getAttribute("href") === "#" + current){
+                    link.classList.add("active")
+                }
 
             })
 
         })
 
-        </script>
+        /* SIDEBAR AUTO SCROLL */
 
+        navLinks.forEach(link => {
+
+            link.addEventListener("click", () => {
+
+                setTimeout(()=>{
+
+                    link.scrollIntoView({
+                        behavior:"smooth",
+                        block:"center"
+                    })
+
+                },200)
+
+            })
+
+        })
+
+        /* IMAGE ZOOM + PAN */
+
+        const zoomModal = document.getElementById("zoomModal")
+        const zoomImage = document.getElementById("zoomImage")
+
+        let scale = 1
+        let posX = 0
+        let posY = 0
+        let isDragging = false
+        let startX, startY
+
+        document.querySelectorAll(".section img").forEach(img => {
+
+            img.addEventListener("click", () => {
+
+                zoomModal.style.display = "flex"
+                zoomImage.src = img.src
+
+                scale = 1
+                posX = 0
+                posY = 0
+
+                zoomImage.style.transform = `scale(${scale}) translate(0px,0px)`
+
+            })
+
+        })
+
+        /* ZOOM WITH MOUSE WHEEL */
+
+        zoomModal.addEventListener("wheel", (e)=>{
+
+            e.preventDefault()
+
+            const zoomSpeed = 0.1
+
+            if(e.deltaY < 0){
+                scale += zoomSpeed
+            }else{
+                scale -= zoomSpeed
+            }
+
+            scale = Math.max(1, Math.min(scale,5))
+
+            zoomImage.style.transform =
+                `translate(${posX}px,${posY}px) scale(${scale})`
+
+        })
+
+        /* PAN WITH DRAG */
+
+        zoomImage.addEventListener("mousedown",(e)=>{
+
+            isDragging = true
+            startX = e.clientX - posX
+            startY = e.clientY - posY
+            zoomModal.style.cursor = "grabbing"
+
+        })
+
+        document.addEventListener("mousemove",(e)=>{
+
+            if(!isDragging) return
+
+            posX = e.clientX - startX
+            posY = e.clientY - startY
+
+            zoomImage.style.transform = `translate(${posX}px,${posY}px) scale(${scale})`
+
+        })
+
+        document.addEventListener("mouseup",()=>{
+
+            isDragging = false
+            zoomModal.style.cursor = "grab"
+
+        })
+
+        /* CLOSE MODAL */
+
+        zoomModal.addEventListener("click",(e)=>{
+
+            if(e.target === zoomModal){
+                zoomModal.style.display = "none"
+            }
+
+        })
+
+        </script>
+  
     </body>
 </html>
