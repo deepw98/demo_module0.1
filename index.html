@@ -8,13 +8,18 @@
        body{
             margin:0;
             font-family:system-ui, Arial, sans-serif;
-            font-size:14px;
+            font-size:16px;
+            line-height: 1.6;
         }
 
         /* Layout */
 
         .container{
             display:flex;
+        }
+
+        h1{
+            font: 2.2rem;
         }
 
         /* Sidebar */
@@ -38,8 +43,8 @@
         }
 
         .sidebar input{
-            width:85%;
-            margin:10px;
+            width:80%;
+            margin:12px;
             padding:8px;
             border:1px solid black;
             border-radius:4px;
@@ -61,7 +66,7 @@
         /* Submenu */
 
        .submenu{
-            display:none;
+            display:block;
             background:#f7f7f7;
         }
 
@@ -80,24 +85,24 @@
         /* Content */
 
       .content{
-            margin-left:260px;
-            padding-left:40px;
+            margin-left:550px;
+            padding:0px 40px;
             max-width:950px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
         }
         p{
             margin-top:20px;
             margin-bottom:20px;
         }
 
-        html{
-        scroll-behavior:smooth;
-        }
         .section img{
             display:block;
             max-width:100%;
             height:auto;
             border-radius:6px;
-            margin:20px 0;
+            margin:35px 0;
             cursor:zoom-in;
             box-shadow:
                 0 0 0 10px #eef4ff,
@@ -112,12 +117,13 @@
        .section{
             margin-bottom:30px;
             counter-reset:step;
+            scroll-margin-top:90px;
         }
 
        .step{
             background:#f4f6f8;
             padding:10px 12px;
-            border-left:4px solid black;
+            border-left:4px solid #2171ae;
             margin:15px 0;
         }
 
@@ -158,12 +164,13 @@
             display:inline-block;
             margin-right:8px;
             transition:transform 0.25s ease;
+            transform: rotate(90deg);
         }
 
         /* rotated arrow */
 
         .arrow.rotate{
-            transform:rotate(90deg);
+            transform:rotate(0deg);
         }
 
         /* TOP NAVBAR */
@@ -354,6 +361,9 @@
                 <h2>Help Guide</h2>
 
                 <input type="text" id="searchBox" placeholder="Search...">
+                <div id="searchInfo" style="padding:10px; font-size:13px; color:#555;">
+                    <span id="resultCount"></span>
+                </div>
 
                 <div class="menu-item" onclick="toggleMenu(this,'menu1')">
                     <span class="arrow">▶</span> Stock Product
@@ -374,9 +384,9 @@
             <div class="content">
 
                 <div class="section" id="definition">
+                    <h1>Stock Products</h1>
                     <h2>What are Stock Products?</h2>
-                    <p>Stock products are standardized items that are kept in inventory and are ready for immediate sale or distribution.
-                        Unlike custom-made or "on-demand" items, stock products are manufactured or purchased in advance based on forecasted demand.
+                    <p>Stock products in the stone industry refer to standardized stone materials—such as slabs, tiles, or cut-to-size units—that are pre-processed, stored as inventory, and made available for immediate sale without requiring customization, typically characterized by consistent specifications in size, thickness, finish, and material type.
                     </p>
                     <!-- <img src="images/login.png"> -->
                 </div>
@@ -448,23 +458,26 @@
 
 
         <script>
+        let isAutoScrolling = false  
 
         /* COLLAPSIBLE MENU */
 
-       function toggleMenu(element, id){
+        function toggleMenu(element, id){
 
             let menu = document.getElementById(id)
             let arrow = element.querySelector(".arrow")
 
-            if(menu.style.display === "block"){
+            let isVisible = window.getComputedStyle(menu).display === "block"
+
+            if(isVisible){
 
                 menu.style.display = "none"
-                arrow.classList.remove("rotate")
+                arrow.classList.add("rotate")
 
             }else{
 
                 menu.style.display = "block"
-                arrow.classList.add("rotate")
+                arrow.classList.remove("rotate")
 
             }
 
@@ -473,19 +486,27 @@
 
         /* SEARCH */
 
-      const searchBox = document.getElementById("searchBox")
+        const searchBox = document.getElementById("searchBox")
+        const resultCount = document.getElementById("resultCount")
 
-        searchBox.addEventListener("keyup", function(){
+        let matches = []
+        let currentIndex = -1
 
+        searchBox.addEventListener("keyup", function(e){
+
+            if(e.key === "ArrowDown") return 
             const word = this.value.trim().toLowerCase()
 
-            const sections = document.querySelectorAll(".section")
-
             removeHighlights()
+            matches = []
+            currentIndex = -1
 
-            if(word === "") return
+            if(word === ""){
+                resultCount.textContent = ""
+                return
+            }
 
-            let firstMatch = null
+            const sections = document.querySelectorAll(".section")
 
             sections.forEach(section => {
 
@@ -513,30 +534,55 @@
 
                         node.parentNode.replaceChild(span,node)
 
-                        if(!firstMatch){
-                            firstMatch = span.querySelector("mark")
-                        }
-
                     }
 
                 }
 
             })
 
-            /* scroll to first result */
+            matches = document.querySelectorAll(".searchHighlight")
 
-            if(firstMatch){
+            resultCount.textContent = matches.length + " results"
 
-                firstMatch.scrollIntoView({
-                    behavior:"smooth",
-                    block:"center"
-                })
+            if(matches.length > 0){
+                currentIndex = 0
+                scrollToMatch(currentIndex)
+            }
+
+        })
+
+
+        /* Navigate with ArrowDown key */
+        searchBox.addEventListener("keydown", function(e){
+
+            if(e.key === "ArrowDown" && matches.length > 0){
+
+                e.preventDefault() 
+                currentIndex = (currentIndex + 1) % matches.length
+                scrollToMatch(currentIndex)
 
             }
 
         })
 
 
+        function scrollToMatch(index){
+
+            isAutoScrolling = true
+
+            matches[index].scrollIntoView({
+                behavior:"smooth",
+                block:"center"
+            })
+
+            setTimeout(() => {
+                isAutoScrolling = false
+            }, 800)
+
+        }
+
+
+        /* remove highlights */
         function removeHighlights(){
 
             document.querySelectorAll(".searchHighlight").forEach(mark => {
@@ -558,9 +604,11 @@
 
         const sections = document.querySelectorAll(".section")
         const navLinks = document.querySelectorAll(".submenu a")
+      
 
-        window.addEventListener("scroll", () => {
+        function updateActiveLink(){
 
+            if(isAutoScrolling) return 
             let current = ""
 
             sections.forEach(section => {
@@ -573,6 +621,11 @@
 
             })
 
+            /* If nothing found (top of page), select first section */
+            if(!current && sections.length > 0){
+                current = sections[0].getAttribute("id")
+            }
+
             navLinks.forEach(link => {
 
                 link.classList.remove("active")
@@ -583,7 +636,13 @@
 
             })
 
-        })
+        }
+
+        /* Run on scroll */
+        window.addEventListener("scroll", updateActiveLink)
+
+        /* Run once on page load */
+        window.addEventListener("load", updateActiveLink)
 
         /* SIDEBAR AUTO SCROLL */
 
